@@ -1,0 +1,68 @@
+- name: copy MySQL rpm 
+  copy:
+    src: mysql-community-release-el7-5.noarch.rpm
+    dest: /opt
+
+- name: Install repo
+  yum:
+     name: /opt/mysql-community-release-el7-5.noarch.rpm
+     state: present
+
+- name: Install MySQL
+  yum:
+    name:
+      - mysql-server
+      - MySQL-python
+      - mailx
+    state: present
+
+- name: start the service
+  service:
+    name: mysqld
+    state: started
+    enabled: yes
+
+- name: Create a new database
+  mysql_db:
+    name: "{{ DB_NAME }}"
+    state: present
+
+- name: Create user suvishesh
+  mysql_user:
+    name: "{{ DB_USER }}"
+    password: "{{ DB_PASS }}"
+    priv:
+      "{{ DB_NAME }}.*:ALL,GRANT"
+    state: present
+
+- name: Copy file with owner and permissions
+  copy:
+    src: dump.sql
+    dest: /tmp
+
+- name: Create tables
+  mysql_db:
+    name: "{{ DB_NAME }}"
+    state: import
+    target: /tmp/dump.sql
+    login_user: "{{ DB_USER }}"
+    login_password: "{{ DB_PASS }}"
+
+- name: copy db.sql
+  copy:
+    src: db.sql
+    dest: /tmp/db.sql
+
+- name: Copy db_check.sh
+  copy:
+    src: db_check.sh
+    dest: /tmp/db_check.sh
+    owner: root
+    group: root
+    mode: '0777'
+
+- name: cron for every 2 minutes
+  cron:
+    name: db_check
+    minute: "*/2"
+    job: "/tmp/db_check.sh"

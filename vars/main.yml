@@ -1,0 +1,5 @@
+---
+# vars file for mysql
+DB_NAME: june5
+DB_USER: suvishesh
+DB_PASS: suvi@123
