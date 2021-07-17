@@ -3,7 +3,7 @@
 STATUS=`systemctl show -p ActiveState mysql | cut -d'=' -f2`
 #SubState=`systemctl show -p SubState mysql | cut -d'=' -f2`
 
-SIZE=`mysql -usuvishesh -psuvi@123 < /tmp/db.sql 2> /dev/null | grep june | awk '{printf "%.0f",$2}'`
+SIZE=`mysql -utestuser -ptest@123 < /tmp/db.sql 2> /dev/null | grep testdb | awk '{printf "%.0f",$2}'`
 #echo $SIZE
 
 #ww=${SIZE%.*}
