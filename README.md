@@ -1,8 +1,9 @@
 Role Name
 =========
 
-simple ansible role that installs, starts, creates user,db,tables and has a script to check the size of the given dbname
-if you need to use this role execute : ansible-galaxy install suvishesh.mysql_ansible_role
+simple ansible role that installs, starts, creates user,db,tables and has a script to check the size of the given dbname.
+
+if you need to use this role execute : ```ansible-galaxy install suvishesh.mysql_ansible_role```
 
 Requirements
 ------------
